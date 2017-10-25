@@ -69,13 +69,6 @@ public class AndroidLocationServices extends Service implements GoogleApiClient.
         // TODO Auto-generated method stub
         super.onCreate();
 
-    //    PowerManager pm = (PowerManager) getSystemService(this.POWER_SERVICE);
-
-  //      wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DoNotSleep");
-
-        System.out.println("*4*");
-        //   Constants.printToast(getApplicationContext(), "4");
-
         Log.e("Google", "Service Created");
 
     }
@@ -96,9 +89,6 @@ public class AndroidLocationServices extends Service implements GoogleApiClient.
 
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("*7*");
-            //          Constants.printToast(getApplicationContext(), "7");
-//
             return;
         }
         Constants.printToast(getApplicationContext(), "Started with bus:"+busId);
@@ -107,8 +97,6 @@ public class AndroidLocationServices extends Service implements GoogleApiClient.
             @Override
             public void onLocationChanged(Location location) {
                 // TODO Auto-generated method stub
-                System.out.println("*8*");
-                Constants.printToast(getApplicationContext(), "Changed");
                 //displayLocation();
                 long current=System.currentTimeMillis()/1000;
                 if(current-time>=5)
@@ -116,8 +104,6 @@ public class AndroidLocationServices extends Service implements GoogleApiClient.
                     displayLocation();
                     time=current;
                 }
-//                Constants.printToast(getApplicationContext(), "Updated");
-
             }
 
             @Override
@@ -143,7 +129,6 @@ public class AndroidLocationServices extends Service implements GoogleApiClient.
                 != PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("*9*");
             Constants.printToast(getApplicationContext(), "Permission not granted!");
         }
 
@@ -162,10 +147,7 @@ public class AndroidLocationServices extends Service implements GoogleApiClient.
             double longitude = mLastLocation.getLongitude();
 
             float bearings=mLastLocation.getBearing();
-            System.out.println("Bearings:"+bearings);
-            String data="{\"bus_id\":"+busId+",\"longitude\":"+longitude+",\"latitude\":"+latitude+",\"bearings\":"+bearings+",\"phone\":"+phone+"}";
-            Constants.printToast(getApplicationContext(), "Uploading:"+data);
-
+            String data="{\"bus_id\":"+busId+",\"longitude\":"+longitude+",\"latitude\":"+latitude+",\"bearings\":"+bearings+"}";
             ArrayList<String> params=new ArrayList<>();
             params.add("location");
             params.add(Constants.BUS_ID);
@@ -174,22 +156,12 @@ public class AndroidLocationServices extends Service implements GoogleApiClient.
             values.add(data);
             values.add(busId);
             values.add(phone);
-
-
-            new BackgroundTask(Constants.TRACK_URL, params, values, new BackgroundTask.AsyncResponse() {
-
+            new BackgroundTaskPost(Constants.TRACK_URL+"update_location", params, values, new BackgroundTaskPost.AsyncResponse() {
                 @Override
                 public void processFinish(String output, int code) {
-
-                    Constants.printToast(getApplicationContext(), "Sussess: "+code);
-
                 }
             }).execute();
-//            Toast.makeText(getApplicationContext(), data,Toast.LENGTH_LONG).show();
         }else{
-            System.out.println("*12*");
-              Constants.printToast(getApplicationContext(), "12");
-
         }
     }
 
@@ -199,7 +171,6 @@ public class AndroidLocationServices extends Service implements GoogleApiClient.
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API).build();
-        System.out.println("*11*");
         displayLocation();
     }
 
@@ -221,7 +192,6 @@ public class AndroidLocationServices extends Service implements GoogleApiClient.
 //        wakeLock.release();
         // TODO Auto-generated method stub
         super.onDestroy();
-        System.out.println("*14*");
         //  Constants.printToast(getApplicationContext(), "14");
 
 //        new ToggleGPS(getApplicationContext()).turnGPSOff();

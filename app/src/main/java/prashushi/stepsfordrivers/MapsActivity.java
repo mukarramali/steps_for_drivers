@@ -33,6 +33,8 @@ package prashushi.stepsfordrivers;
 
         import java.util.ArrayList;
 
+        import static prashushi.stepsfordrivers.Constants.RESPONSE_DATA;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener {
 
     private GoogleMap mMap;
@@ -41,12 +43,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Runnable runnable;
     int busId;
     String phone;
+    double latitude, longitude;
+    long bearings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         busId=getIntent().getIntExtra(Constants.BUS_ID, 0);
         phone=getIntent().getStringExtra(Constants.PHONE);
+        latitude=getIntent().getDoubleExtra(Constants.LATITUDE, 0);
+        longitude=getIntent().getDoubleExtra(Constants.LONGITUDE, 0);
+        bearings=getIntent().getLongExtra(Constants.BEARINGS, 0);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -77,8 +84,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (Resources.NotFoundException e) {
             Log.e("XXX", "Can't find style. Error: ", e);
         }
-        LatLng office = new LatLng(28.6398, 77.3384);
-        MarkerOptions markerOptions=new MarkerOptions().title("Your Bus").position(office)
+        LatLng current = new LatLng(latitude, longitude);
+        MarkerOptions markerOptions=new MarkerOptions().title("Your Bus").position(current).rotation(bearings)
                 .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("school_bus_icon", 50, 50)));
 
         marker=mMap.addMarker(markerOptions);
@@ -109,11 +116,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     void moveMarker(){
         ArrayList<String> params=new ArrayList<>();
-        params.add("bus_id");
+        params.add(Constants.BUS_ID);
         ArrayList<String> values=new ArrayList<>();
         values.add(busId+"");
 
-        new BackgroundTask(Constants.TRACK_URL, params, values, new BackgroundTask.AsyncResponse() {
+        new BackgroundTask(Constants.TRACK_URL+"track", params, values, new BackgroundTask.AsyncResponse() {
 
             @Override
             public void processFinish(String output, int code) {
@@ -122,18 +129,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     double lat=28.6398, lon=77.3384;
                     float bearings=0;
                     try {
-                        JSONObject obj=new JSONObject(output);
+                        JSONObject temp = new JSONObject(output);
+                        JSONObject obj=temp.optJSONObject(RESPONSE_DATA);
                         lat=obj.optDouble("latitude");
                         lon=obj.optDouble("longitude");
                         bearings=obj.optLong("bearings");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    LatLng office = new LatLng(lat, lon);
-                    animateMarker(marker, office, false);
-                    marker.setPosition(office);
+                    LatLng current = new LatLng(lat, lon);
+                    animateMarker(marker, current, false);
+                    marker.setPosition(current);
                     marker.setRotation(bearings);
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(office));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
                 }
             }
         }).execute();        //zoom

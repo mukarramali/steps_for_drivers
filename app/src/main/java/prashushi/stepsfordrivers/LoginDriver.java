@@ -202,10 +202,11 @@ public class LoginDriver  extends AppCompatActivity implements View.OnClickListe
                     if(in.length()==0)
                         break;
                     int inputID=Integer.parseInt(in);
-                            toggleService(true);
+                    toggleService(true);
 
-                }else
-                toggleService(false);
+                }
+                else
+                    toggleService(false);
                 break;
         }
     }

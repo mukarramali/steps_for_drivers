@@ -53,44 +53,6 @@
             style="@style/Base.TextAppearance.AppCompat.Button"/>
         </RelativeLayout>
     </LinearLayout>
-    <RadioGroup
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:id="@+id/radio_group_answer"
-        android:layout_above="@id/container">
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="A"
-            android:id="@+id/radio_button_a"
-            android:padding="10dp"
-
-            />
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="B"
-            android:id="@+id/radio_button_b"
-            android:padding="10dp"
-            />
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="C"
-            android:id="@+id/radio_button_c"
-            android:padding="10dp"
-            />
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="D"
-            android:id="@+id/radio_button_d"
-            android:padding="10dp"
-            />
-    </RadioGroup>
 
 
 </RelativeLayout>

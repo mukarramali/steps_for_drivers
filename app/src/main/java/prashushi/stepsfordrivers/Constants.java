@@ -13,13 +13,16 @@ public class Constants {
     public static String LATITUDE="latitude";
     public static String LONGITUDE="longitude";
     public static String BEARINGS="bearings";
+    public static String RESPONSE_DATA="response_data";
 
     public Constants() {
         // TODO Auto-generated constructor stub
     }
     public static final String TRACK_URL = "http://farcon.in/location/location.php";
-//  public static final String TRACK_URL = "http://192.168.43.236/sample/index.php";
-//  public static final String TRACK_URL = "http://10.0.3.2/sample/index.php";
+//    Three endpoints:
+//    1. update_location:POST:AndroidLocationServices
+//    2. list_bus:GET:ListBusActivity
+//    3. track:GET:MapsActivity
     public static final String MAPS_API = "AIzaSyAAHC8Zl_3fwPyqEUuBYzoIk4yu_x0GBOU";
     static public void printToast(Context context, String tag){
        // Toast.makeText(context, tag, Toast.LENGTH_SHORT).show();

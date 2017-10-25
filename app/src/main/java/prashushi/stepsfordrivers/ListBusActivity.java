@@ -15,12 +15,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static prashushi.stepsfordrivers.Constants.BUS_ID;
+import static prashushi.stepsfordrivers.Constants.RESPONSE_DATA;
+
 /**
  * Created by Dell User on 3/9/2017.
  */
 public class ListBusActivity extends AppCompatActivity {
     ListView listView;
-    int[] busIds=new int[]{11, 22, 33, 44};
     JSONArray array=null;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,21 +31,34 @@ public class ListBusActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listView= (ListView) findViewById(R.id.list_bus);
 
-        new BackgroundTask(Constants.TRACK_URL, new ArrayList<String>(), new ArrayList<String>(), new BackgroundTask.AsyncResponse() {
+        new BackgroundTask(Constants.TRACK_URL+"list_bus.php", new ArrayList<String>(), new ArrayList<String>(), new BackgroundTask.AsyncResponse() {
             @Override
             public void processFinish(String output, int code) {
-
+                //expected:
+//                {
+//                    "response_data":[
+//                    {
+//                        "bus_id" : "xyz",
+//                        "latitude" : 12.111,
+//                        "longitude" : 78.932,
+//                        "phone" : "1212121211"
+//                    },
+//                    {
+//
+//                    }
+//                    ]
+//                }
                 if(Constants.resposeCode(code)){
                     try {
-                        array=new JSONArray(output);
+                        JSONObject temp = new JSONObject(output);
+                        array=temp.getJSONArray(RESPONSE_DATA);
                         String[] list=new String[array.length()];
                         for (int i=0;i<list.length;i++){
-                            list[i]="Bus "+(i+1);
+                            list[i]=""+(i+1)+": "+array.optJSONObject(i).optString(BUS_ID);
                         }
                         ArrayAdapter adapter=new ArrayAdapter(ListBusActivity.this,
                                 R.layout.card_bus, R.id.tv_bus, list);
                         listView.setAdapter(adapter);
-
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -62,13 +77,12 @@ public class ListBusActivity extends AppCompatActivity {
                 double lon=obj.optDouble(Constants.LONGITUDE);
                 long bearings=obj.optLong(Constants.BEARINGS);
                 String phone=obj.optString(Constants.PHONE);
-                int busId=obj.optInt(Constants.BUS_ID);
-                intent.putExtra(Constants.BUS_ID, busId);
+                int busId=obj.optInt(BUS_ID);
+                intent.putExtra(BUS_ID, busId);
                 intent.putExtra(Constants.PHONE, phone);
                 intent.putExtra(Constants.LATITUDE, lat);
                 intent.putExtra(Constants.LONGITUDE, lon);
                 intent.putExtra(Constants.BEARINGS, bearings);
-
                 startActivity(intent);
             }
         });
