@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="prashushi.stepsfordrivers.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:weightSum="2">
+        <RelativeLayout
+            android:id="@+id/select_bus"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/cyan">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Find Your Bus"
+                android:textColor="@color/white"
+                android:textSize="20dp"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/enter_driver"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/blue_bg">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Enter As Driver"
+                android:textColor="@color/white"
+                android:textSize="20dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="80dp"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:text="OR"
+            android:paddingTop="22dp"
+            android:paddingLeft="5dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:background="@drawable/circle"
+            />
+
+</RelativeLayout>
