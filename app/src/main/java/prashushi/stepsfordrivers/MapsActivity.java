@@ -120,13 +120,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ArrayList<String> values=new ArrayList<>();
         values.add(busId+"");
 
-        new BackgroundTask(Constants.TRACK_URL+"track", params, values, new BackgroundTask.AsyncResponse() {
+        new BackgroundTask(Constants.TRACK_URL+"track.php", params, values, new BackgroundTask.AsyncResponse() {
 
             @Override
             public void processFinish(String output, int code) {
 
                 if(Constants.resposeCode(code)){
-                    double lat=28.6398, lon=77.3384;
+                    double lat=28.0000, lon=77.0000;
                     float bearings=0;
                     try {
                         JSONObject temp = new JSONObject(output);

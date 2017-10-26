@@ -40,6 +40,8 @@ import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 
+import static prashushi.stepsfordrivers.Constants.*;
+
 public class AndroidLocationServices extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
 
@@ -147,16 +149,22 @@ public class AndroidLocationServices extends Service implements GoogleApiClient.
             double longitude = mLastLocation.getLongitude();
 
             float bearings=mLastLocation.getBearing();
-            String data="{\"bus_id\":"+busId+",\"longitude\":"+longitude+",\"latitude\":"+latitude+",\"bearings\":"+bearings+"}";
+            String data="{\"longitude\":"+longitude+",\"latitude\":"+latitude+",\"bearings\":"+bearings+"}";
             ArrayList<String> params=new ArrayList<>();
             params.add("location");
-            params.add(Constants.BUS_ID);
-            params.add(Constants.PHONE);
+            params.add(BUS_ID);
+            params.add(PHONE);
+            params.add(LATITUDE);
+            params.add(LONGITUDE);
+            params.add(BEARINGS);
             ArrayList<String> values=new ArrayList<>();
             values.add(data);
             values.add(busId);
             values.add(phone);
-            new BackgroundTaskPost(Constants.TRACK_URL+"update_location", params, values, new BackgroundTaskPost.AsyncResponse() {
+            values.add(latitude+"");
+            values.add(longitude+"");
+            values.add(bearings+"");
+            new BackgroundTaskPost(Constants.TRACK_URL+"update_location.php", params, values, new BackgroundTaskPost.AsyncResponse() {
                 @Override
                 public void processFinish(String output, int code) {
                 }

@@ -8,7 +8,7 @@ import android.widget.Toast;
  */
 
 public class Constants {
-    public static String BUS_ID="bus_id";
+    public static String BUS_ID="vehicle_id";
     public static String PHONE="phone";
     public static String LATITUDE="latitude";
     public static String LONGITUDE="longitude";
@@ -18,7 +18,7 @@ public class Constants {
     public Constants() {
         // TODO Auto-generated constructor stub
     }
-    public static final String TRACK_URL = "http://farcon.in/location/location.php";
+    public static final String TRACK_URL = "http://192.168.43.40/freesteps/";
 //    Three endpoints:
 //    1. update_location:POST:AndroidLocationServices
 //    2. list_bus:GET:ListBusActivity
